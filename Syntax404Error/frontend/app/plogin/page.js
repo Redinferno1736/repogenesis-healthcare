@@ -2,9 +2,18 @@
 import { useState } from "react";
 import { ShieldCheck, HeartPulse } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+
 
 export default function PatientLogin() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const handleGoogleLogin = () => {
+    // Update this route to whatever your backend Google OAuth URL is
+    router.push("/api/auth/google");
+  };
 
   return (
     <div className="min-h-screen bg-[#F2E6C9]/20 flex items-center justify-center font-sans">
@@ -29,8 +38,16 @@ export default function PatientLogin() {
             Welcome Back 🧑‍🩺
           </h3>
 
-          <form className="space-y-6">
+          {/* Google Login Button */}
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-3 py-3 border border-[#429795] rounded-xl text-[#1B1B3A] font-semibold hover:bg-[#429795]/10 transition-all mb-6"
+          >
+            <img src="/google.png" alt="Google Logo" className="w-6 h-6" />
+            Continue with Google
+          </button>
 
+          <form className="space-y-6">
             <div>
               <label className="text-sm font-semibold text-[#1B1B3A]">
                 Email

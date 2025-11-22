@@ -1,10 +1,16 @@
 "use client";
 import { useState } from "react";
-import { ShieldCheck, Stethoscope } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { signIn } from "next-auth/react"; // Only if you're using NextAuth
 
 export default function DoctorSignup() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleGoogleSignup = () => {
+    signIn("google", { callbackUrl: "/dashboard" }); 
+  };
 
   return (
     <div className="min-h-screen bg-[#F2E6C9]/20 flex items-center justify-center font-sans">
@@ -71,6 +77,33 @@ export default function DoctorSignup() {
               className="w-full py-4 text-white text-lg font-bold rounded-xl bg-linear-to-r from-[#2D7A7F] to-[#429795] hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
             >
               Sign Up
+            </button>
+
+            {/* Divider */}
+            <div className="relative my-3">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-[#DBC2A9]" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-3 text-[#1B1B3A]/60">OR</span>
+              </div>
+            </div>
+
+            {/* Google Signup Button */}
+            <button
+              type="button"
+              onClick={handleGoogleSignup}
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-[#DBC2A9] rounded-xl hover:bg-gray-50 transition"
+            >
+              <Image
+                src="/google.png"   // ensure file exists in /public
+                width={22}
+                height={22}
+                alt="Google logo"
+              />
+              <span className="font-medium text-[#1B1B3A]">
+                Sign up with Google
+              </span>
             </button>
 
             <p className="text-center text-[#1B1B3A]/70">

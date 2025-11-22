@@ -1,12 +1,19 @@
 "use client";
+
 import { useState } from "react";
 import { ShieldCheck, HeartPulse } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { signIn } from "next-auth/react"; // Only if using NextAuth
 
 export default function PatientSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
+  const handleGoogleSignup = () => {
+    signIn("google", { callbackUrl: "/patient-onboarding" });
+  };
 
   return (
     <div className="min-h-screen bg-[#F2E6C9]/20 flex items-center justify-center font-sans">
@@ -60,10 +67,40 @@ export default function PatientSignup() {
               />
             </div>
 
+            {/* Regular Signup Button */}
             <button
+              type="button"
               className="w-full py-4 text-white text-lg font-bold rounded-xl bg-linear-to-r from-[#2D7A7F] to-[#429795] hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
+              onClick={() => router.push("/patient-onboarding")}
             >
               Sign Up
+            </button>
+
+            {/* Divider */}
+            <div className="relative my-3">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-[#DBC2A9]" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-3 text-[#1B1B3A]/60">OR</span>
+              </div>
+            </div>
+
+            {/* Google Signup */}
+            <button
+              type="button"
+              onClick={handleGoogleSignup}
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-[#DBC2A9] rounded-xl hover:bg-gray-50 transition"
+            >
+              <Image
+                src="/google.png"
+                width={22}
+                height={22}
+                alt="Google logo"
+              />
+              <span className="font-medium text-[#1B1B3A]">
+                Sign up with Google
+              </span>
             </button>
 
             <p className="text-center text-[#1B1B3A]/70">
@@ -72,6 +109,7 @@ export default function PatientSignup() {
                 Login here
               </Link>
             </p>
+
           </form>
         </div>
       </div>
