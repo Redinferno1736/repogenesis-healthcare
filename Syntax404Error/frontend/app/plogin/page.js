@@ -12,7 +12,7 @@ export default function PatientLogin() {
 
   const handleGoogleLogin = () => {
     // Update this route to whatever your backend Google OAuth URL is
-    router.push("/api/auth/google");
+    window.location.href=`${process.env.NEXT_PUBLIC_API_BASE}/auth/google`
   };
 
   return (

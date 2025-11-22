@@ -9,7 +9,7 @@ export default function DoctorLogin() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleGoogleLogin = () => {
-    signIn("google", { callbackUrl: "/dashboard" }); 
+    window.location.href=`${process.env.NEXT_PUBLIC_API_BASE}/auth/google?role=doctor`
   };
 
   return (

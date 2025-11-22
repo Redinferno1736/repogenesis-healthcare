@@ -2,6 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+// import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
+import { User } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import {
   ShieldCheck,
   X,
@@ -16,7 +20,13 @@ import Chart from "chart.js/auto";
 import Link from "next/link";
 
 export default function ReportPage() {
-  const triageRef = useRef(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const risk_label = searchParams.get('risk_label');
+  const age = searchParams.get('age');
+  const sex = searchParams.get('sex');
+  const symptoms = searchParams.get('symptoms');
+  const name = searchParams.get('name'); const triageRef = useRef(null);
   const triageChartRef = useRef(null);
 
   useEffect(() => {
@@ -45,7 +55,7 @@ export default function ReportPage() {
         labels: ["Risk", "Safe"],
         datasets: [
           {
-            data: [92, 8],
+            data: [risk_label * 100, 100 - risk_label * 100],
             backgroundColor: ["#EF4444", "#E5E7EB"],
             borderWidth: 0,
             cutout: "85%",
@@ -147,24 +157,24 @@ export default function ReportPage() {
           <div className="flex items-center z-10">
             <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-2xl font-bold border-2 border-white/20">
               {/* Initials */}
-              JH
+              <User />
             </div>
             <div className="ml-5">
-              <h1 className="text-2xl font-bold">James Holloway</h1>
+              <h1 className="text-2xl font-bold">{name}</h1>
               <div className="flex items-center text-gray-300 text-sm mt-1 space-x-4">
                 <span>
                   <span className="inline-block mr-1">
                     {/* hash icon as text fallback */}
-                    <svg className="w-3 h-3 inline" viewBox="0 0 24 24" fill="currentColor"><path d="M10 3v2h-3v2h3v8h-3v2h3v4h2v-4h3v-2h-3v-8h3V5h-3V3h-2z"/></svg>
+                    <svg className="w-3 h-3 inline" viewBox="0 0 24 24" fill="currentColor"><path d="M10 3v2h-3v2h3v8h-3v2h3v4h2v-4h3v-2h-3v-8h3V5h-3V3h-2z" /></svg>
                   </span>
                   ID: P-9982-X
                 </span>
                 <span>
-                  <svg className="w-3 h-3 inline mr-1" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10h2v2H7v-2zm4 0h2v2h-2v-2z"/></svg>
-                  58 Years / Male
+                  <svg className="w-3 h-3 inline mr-1" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10h2v2H7v-2zm4 0h2v2h-2v-2z" /></svg>
+                  {age} Years / {sex}
                 </span>
                 <span>
-                  <svg className="w-3 h-3 inline mr-1" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                  <svg className="w-3 h-3 inline mr-1" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" /></svg>
                   Type: O+
                 </span>
               </div>
@@ -181,7 +191,7 @@ export default function ReportPage() {
 
             <div className="text-right">
               <div className="text-xs text-gray-400 uppercase tracking-wider">Admitted</div>
-              <div className="font-semibold text-lg">10:42 AM (Today)</div>
+              <div className="font-semibold text-lg">NA</div>
             </div>
           </div>
         </div>
@@ -308,8 +318,8 @@ export default function ReportPage() {
               <div className="relative w-48 h-48 mx-auto flex items-center justify-center">
                 <canvas ref={triageRef} id="triageChart" className="w-full h-full" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-4xl font-extrabold text-red-600">92</span>
-                  <span className="text-xs font-bold text-gray-400">CRITICAL</span>
+                  <span className="text-4xl font-extrabold text-red-600">{risk_label * 100}</span>
+                  <span className="text-xs font-bold text-gray-400">Percent</span>
                 </div>
               </div>
 
